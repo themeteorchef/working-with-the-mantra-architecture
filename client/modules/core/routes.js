@@ -2,36 +2,36 @@ import React from 'react';
 import {mount} from 'react-mounter';
 
 import MainLayout from './components/main_layout';
-import PostList from './containers/postlist';
-import Post from './containers/post';
-import NewPost from './containers/newpost';
+import BooksList from './containers/bookslist';
+import Book from './containers/book';
+import NewBook from './containers/newbook';
 
 export default function (injectDeps, {FlowRouter}) {
   const MainLayoutCtx = injectDeps(MainLayout);
 
   FlowRouter.route('/', {
-    name: 'posts.list',
+    name: 'books.list',
     action() {
       mount(MainLayoutCtx, {
-        content: () => (<PostList />)
+        content: () => (<BooksList />)
       });
     }
   });
 
-  FlowRouter.route('/post/:postId', {
-    name: 'posts.single',
-    action({postId}) {
+  FlowRouter.route('/books/:bookId', {
+    name: 'books.single',
+    action({bookId}) {
       mount(MainLayoutCtx, {
-        content: () => (<Post postId={postId}/>)
+        content: () => (<Book bookId={bookId}/>)
       });
     }
   });
 
-  FlowRouter.route('/new-post', {
-    name: 'newpost',
+  FlowRouter.route('/new-book', {
+    name: 'newbook',
     action() {
       mount(MainLayoutCtx, {
-        content: () => (<NewPost/>)
+        content: () => (<NewBook />)
       });
     }
   });

@@ -2,18 +2,14 @@ import {check} from 'meteor/check';
 
 export default function ({Meteor, Collections}) {
   Meteor.methods({
-    'posts.create'(_id, title, content) {
+    'books.create'(_id, title, author) {
       check(_id, String);
       check(title, String);
-      check(content, String);
+      check(author, String);
 
       const createdAt = new Date();
-      const post = {
-        _id, title, content, createdAt,
-        saving: true
-      };
-
-      Collections.Posts.insert(post);
+      const book = {_id, title, author, createdAt};
+      Collections.Books.insert(book);
     }
   });
 }

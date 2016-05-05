@@ -1,5 +1,5 @@
-import posts from './posts';
+import books from './books';
 
 export default function () {
-  posts();
+  books();
 }

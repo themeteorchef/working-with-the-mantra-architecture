@@ -1,11 +1,11 @@
-import {Posts} from '/lib/collections';
+import {Books} from '/lib/collections';
 
 export default function () {
-  if (!Posts.findOne()) {
-    for (let lc = 1; lc <= 5; lc++) {
-      const title = `This is the post title: ${lc}`;
-      const content = `Post ${lc}'s content is great!`;
-      Posts.insert({title, content});
+  if (!Books.findOne()) {
+    for (let i = 1; i <= 5; i++) {
+      const title = `Book #${i}`;
+      const author = `Author #${i}`;
+      Books.insert({title, author});
     }
   }
 }

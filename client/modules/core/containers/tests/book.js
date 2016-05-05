@@ -1,32 +1,32 @@
 const {describe, it} = global;
 import {expect} from 'chai';
 import {stub, spy} from 'sinon';
-import {composer} from '../post';
+import {composer} from '../book';
 
-describe('core.containers.post', () => {
+describe('core.containers.book', () => {
   describe('composer', () => {
     const Tracker = {nonreactive: cb => cb()};
-    const getCollections = (post) => {
+    const getCollections = (book) => {
       const Collections = {
-        Posts: {findOne: stub()}
+        Books: {findOne: stub()}
       };
-      Collections.Posts.findOne.returns(post);
+      Collections.Books.findOne.returns(book);
       return Collections;
     };
 
-    it('should subscribe to the given postId via prop', () => {
+    it('should subscribe to the given bookId via prop', () => {
       const Meteor = {subscribe: stub()};
       Meteor.subscribe.returns({ready: () => false});
       const Collections = getCollections();
 
       const context = () => ({Meteor, Tracker, Collections});
-      const postId = 'dwd';
+      const bookId = 'dwd';
       const onData = spy();
 
-      composer({context, postId}, onData);
+      composer({context, bookId}, onData);
       const args = Meteor.subscribe.args[0];
       expect(args.slice(0, 2)).to.deep.equal([
-        'posts.single', postId
+        'books.single', bookId
       ]);
     });
 
@@ -35,17 +35,17 @@ describe('core.containers.post', () => {
         it('should call onData with data', done => {
           const Meteor = {subscribe: stub()};
           Meteor.subscribe.returns({ready: () => false});
-          const post = {aa: 10};
-          const Collections = getCollections(post);
+          const book = {aa: 10};
+          const Collections = getCollections(book);
 
           const context = () => ({Meteor, Tracker, Collections});
-          const postId = 'dwd';
+          const bookId = 'dwd';
           const onData = (err, data) => {
-            expect(data).to.be.deep.equal({post});
+            expect(data).to.be.deep.equal({book});
             done();
           };
 
-          composer({context, postId}, onData);
+          composer({context, bookId}, onData);
         });
       });
 
@@ -56,13 +56,13 @@ describe('core.containers.post', () => {
           const Collections = getCollections();
 
           const context = () => ({Meteor, Tracker, Collections});
-          const postId = 'dwd';
+          const bookId = 'dwd';
           const onData = (err, data) => {
             expect(data).to.be.equal(undefined);
             done();
           };
 
-          composer({context, postId}, onData);
+          composer({context, bookId}, onData);
         });
       });
     });
@@ -71,17 +71,17 @@ describe('core.containers.post', () => {
       it('should call onData with data', done => {
         const Meteor = {subscribe: stub()};
         Meteor.subscribe.returns({ready: () => true});
-        const post = {aa: 10};
-        const Collections = getCollections(post);
+        const book = {aa: 10};
+        const Collections = getCollections(book);
 
         const context = () => ({Meteor, Tracker, Collections});
-        const postId = 'dwd';
+        const bookId = 'dwd';
         const onData = (err, data) => {
-          expect(data).to.be.deep.equal({post});
+          expect(data).to.be.deep.equal({book});
           done();
         };
 
-        composer({context, postId}, onData);
+        composer({context, bookId}, onData);
       });
     });
   });

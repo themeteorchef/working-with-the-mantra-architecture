@@ -1,38 +1,37 @@
 const { describe, it } = global;
 import {expect} from 'chai';
 import {stub, spy} from 'sinon';
-import {composer} from '../comment_list';
+import {composer} from '../bookslist';
 
-describe('comments.containers.comment_list', () => {
+describe('core.containers.bookslist', () => {
   describe('composer', () => {
-    it('should subscribe to posts.comments', () => {
+    it('should subscribe to books.list', () => {
       const Meteor = {subscribe: stub()};
-      const postId = 'the-postid';
       Meteor.subscribe.returns({ready: () => false});
 
       const context = () => ({Meteor});
       const onData = spy();
 
-      composer({context, postId}, onData);
+      composer({context}, onData);
       expect(Meteor.subscribe.args[0]).to.deep.equal([
-        'posts.comments', postId
+        'books.list'
       ]);
     });
 
     describe('after subscribed', () => {
-      it('should fetch data from all comments & pass to onData', () => {
+      it('should fetch data from all posts & pass to onData', () => {
         const Meteor = {subscribe: stub()};
         Meteor.subscribe.returns({ready: () => true});
 
-        const comments = [ {_id: 'aa'} ];
-        const Collections = {Comments: {find: stub()}};
-        Collections.Comments.find.returns({fetch: () => comments});
+        const books = [ {_id: 'aa'} ];
+        const Collections = {Books: {find: stub()}};
+        Collections.Books.find.returns({fetch: () => books});
 
         const context = () => ({Meteor, Collections});
         const onData = spy();
 
         composer({context}, onData);
-        expect(onData.args[0]).to.deep.equal([ null, {comments} ]);
+        expect(onData.args[0]).to.deep.equal([ null, {books} ]);
       });
     });
   });
